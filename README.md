@@ -4,7 +4,8 @@
 This is paid plan which buy polish schools at [Vulcan site](https://www.vulcan.edu.pl/programy) to generate lesson plans.
 
 ## Config first
-Rename config file plancheckcfg to prepend with dot.
+Rename config file **plancheckcfg** to prepend with dot and fill with.
+
 ### Mail
 ```
 mailssl=
@@ -33,9 +34,12 @@ To get links for first just copy from adress bar, for last copy link from left p
 ## Get links
 
 **2.0** Just copy from adress bar.
+
 ![2.0](volcan_api_2.png)
 
+
 **1.0** Copy link from left panel (left click and Copy Link).
+
 ![1.0](volcan_api_1.png)
 
 ## Install and run
