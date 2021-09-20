@@ -57,19 +57,19 @@
 			text="plan_${pp_prefix}_${kl}"
 			textsum="${text}_sum"
 			cat text1 > $text
-				mailsub=$pp_prefix' PLAN '$kl' zmiana'
+				mailsub=$pp_prefix' PLAN '$kl
 				mailmsg='MIME-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n<html xmlns="http://www.w3.org/1999/xhtml"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="x-apple-disable-message-reformatting"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>'$(echo "$htmlstyle")$(echo -e "$msgtit")$(echo -e "$msg")'</body></html>'
 		if [[ -e $textsum ]];then
 			sha256sum --check $textsum| grep -o 'FAILED' > textstatus
 			if [[ $(cat textstatus | wc -l) -gt 0 ]];then
 				sha256sum $text > $textsum
-				[[ -z $forcemail ]] && sendMail
+				[[ -z $forcemail ]] && mailsub=$mailsub' zmiana' && sendMail
 			fi
 		else
 			sha256sum $text > $textsum
 		fi
-			[[ -n $forcemail ]] && sendMail
 			rm textstatus text text1 text2
+			[[ -n $forcemail ]] && sendMail
 	}
 # <
 #
