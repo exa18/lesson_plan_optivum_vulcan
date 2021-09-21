@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #
 #
 #	Checks and notify if change lesson plans
