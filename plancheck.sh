@@ -65,10 +65,11 @@
 				sha256sum $text > $textsum
 				[[ -z $forcemail ]] && mailsub=$mailsub' zmiana' && sendMail
 			fi
+			rm textstatus
 		else
 			sha256sum $text > $textsum
 		fi
-			rm textstatus text text1 text2
+			rm text text1 text2
 			[[ -n $forcemail ]] && sendMail
 	}
 # <
