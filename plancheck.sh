@@ -33,11 +33,13 @@
     fi
 
     function sendMail(){
+		if [[ -z $justupdate ]];then
         curl --url smtp$mailurls://$mailsmtp$mailurlssl \
         --mail-from $mailfrom \
         --mail-rcpt $mailto \
         --user $mailfrom:$mailpass \
         -T <(echo -en "From: ${mailfrom}\nTo: ${mailto}\nSubject: ${mailsub}\n${mailmsg}")
+		fi
     }
 
 	function checkit(){
@@ -79,6 +81,7 @@
 #
 #
 forcemail=;[[ "${1}" = "-m" ]] && forcemail="yes"
+justupdate=;[[ "${1}" = "-u" ]] && justupdate="yes"
 #
 if [[ ${#planlist[@]} -gt 0 ]];then
 	for i in "${planlist[@]}";do

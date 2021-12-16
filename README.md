@@ -44,3 +44,7 @@ To get links for first just copy from adress bar, for last copy link from left p
 
 ## Install and run
 Just put on any linux server or host with shell. Set execute flag on script with **chmod +x**. Set it to run as cron job.
+
+### Args
+- -m -> force send mail
+- -u -> just update and no sending mail.
