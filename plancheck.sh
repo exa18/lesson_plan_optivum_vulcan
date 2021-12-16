@@ -13,8 +13,11 @@
 #
 # >
     SCRIPT=${0##*/}
+	SCRIPTdir="${0%/*}/"
     SCRIPTname=${SCRIPT%.*}
     cfg=".${SCRIPTname}cfg"
+	STARTdir="$(pwd)"
+	cd $SCRIPTdir || exit
     if [ -f $cfg ]; then
         . $cfg
     else
@@ -87,3 +90,4 @@ if [[ ${#planlist[@]} -gt 0 ]];then
 else
 	echo ".. in $cfg fill planlist"
 fi
+cd $STARTdir || exit
