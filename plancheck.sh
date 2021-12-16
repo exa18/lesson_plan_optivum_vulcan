@@ -4,9 +4,10 @@
 #	Checks and notify if change lesson plans
 #	valid for VULCAN's Optivum API generated
 #	arg: -m : eachtime send mail
+#	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20210915
+#	version: 20211216
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
