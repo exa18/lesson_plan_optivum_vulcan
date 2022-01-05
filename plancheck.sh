@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20211216
+#	version: 20220105
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -55,7 +55,7 @@
 			stab="</table.*table>"
 			skl="tytulnapis\">(.)*</span>"
 		fi
-		echo -e $cu | grep -Eo "${stab}" | grep -Po '<table.*$' > text1
+		echo -e $cu | grep -Eo "${stab}" | grep -Po '<table.*$' | sed -e 's/<\/\?a\s*[^>]*>//g' > text1
 		cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl=$(cat text2)
 			msg=$(cat text1)
