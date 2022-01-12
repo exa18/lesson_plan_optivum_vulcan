@@ -4,7 +4,7 @@ mailfrom='mailfrom@adress'
 mailpass='password4mailfrom'
 mailto='mailto@adress'
 
-htmlstyle='<style>.opium_plan{width:100%;border-collapse:separate !important;border:0;border-spacing:2px !important}.opium_plan tr:nth-of-type(odd){background:#eee}.opium_plan th{background:#eee;color:black;font-weight:bold;text-align:center}.opium_plan td,th{padding:6px;border:1px solid #ccc;text-align:left;border:0}.opium_plan td.nr{text-align:center}.opium_plan td.g{text-align:center}.opium_plan td.l{background:#ddd;color:#000}.opium_plan a{color:#666}.opium_plan a:hover{text-decoration:underline}.opium_plan a:active{text-decoration:underline}.opium_plan td.l:empty{background:0}.opium_plan span.p{font-weight:bold !important}table.opium_plan_select{width:100%}.opium_plan_select td{width:33%}.opium_plan_select td{display:inline-block;text-align:right;line-height:22px}td.g{text-align:center;white-space:nowrap}td.nr{text-align:center}a.n{color:#000}a.s{color:#000}.p{color:#000;font-weight:bold}</style>'
+htmlstyle='<style>.opium_plan{width:100%;border-collapse:separate !important;border:0;border-spacing:0!important}.opium_plan tr:nth-of-type(odd){background:#eee}.opium_plan th{background:#999;color:black;font-weight:bold;text-align:center}.opium_plan td,th{padding:6px;border:0;text-align:left;border-right:3px solid #ccc}.opium_plan td.nr{text-align:center}.opium_plan td.g{text-align:center}.opium_plan td.change{background:#ff0}</style>'
 
 planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32"
 ";;o19"
