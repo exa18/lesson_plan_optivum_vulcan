@@ -127,9 +127,10 @@
 						while [[ $x -lt $day ]];do
 							c="${changed[$i]}"
 							s=
-							[[ -n $c ]] && [[ $x -gt 1 ]] && s=" changed"
+							st=
+							[[ -n $c ]] && [[ $x -gt 1 ]] && s=" changed" && st="<b>${c}:</b>"
 							a="${msg[$i]}"
-							msg[$i]="${a}<td class=\"${type[$x]}${s}\">${text2check[$i]}</td>"
+							msg[$i]="${a}<td class=\"${type[$x]}${s}\">${st}${text2check[$i]}</td>"
 							msg[$i]="$(echo ${msg[$i]} | sed -e 's/\*/<br>/g')"
 							x=$((x+1))
 							i=$((i+1))
