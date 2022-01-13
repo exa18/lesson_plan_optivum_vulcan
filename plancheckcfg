@@ -4,7 +4,7 @@ mailfrom='mailfrom@adress'
 mailpass='password4mailfrom'
 mailto='mailto@adress'
 
-htmlstyle='<style>.opium_plan{width:100%;border-collapse:separate !important;border:0;border-spacing:0!important}.opium_plan tr:nth-of-type(odd){background:#eee}.opium_plan th{background:#999;color:black;font-weight:bold;text-align:center}.opium_plan td,th{padding:6px;border:0;text-align:left;border-right:3px solid #ccc}.opium_plan td.nr{text-align:center}.opium_plan td.g{text-align:center}.opium_plan td.change{background:#ff0}</style>'
+htmlstyle='<style>.opium_plan{width:100%;border-collapse:separate !important;border:0;border-spacing:0!important}.opium_plan tr:nth-of-type(odd){background:#eee}.opium_plan th{background:#999;color:black;font-weight:bold;text-align:center}.opium_plan td,th{padding:6px;border:0;text-align:left;border-right:3px solid #ccc}.opium_plan td.nr{text-align:center}.opium_plan td.g{text-align:center}.opium_plan td.changed{background:#ff0}</style>'
 
 planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32"
 ";;o19"
