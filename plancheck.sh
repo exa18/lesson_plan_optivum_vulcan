@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20220112
+#	version: 20220113
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -61,12 +61,6 @@
 		echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
 		cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl=$(cat text2)
-			readarray -t text2check <<< $(cat text1)
-			# trim spaces
-			for i in "${!text2check[@]}";do
-				a="${text2check[$i]}"
-				text2check[$i]=$(echo "${a}" | sed -e 's/^\s//g' | sed -e 's/\s$//g')
-			done
 			msgtit="<h3>${pp_prefix} / ${kl}</h3>"	# html titile (mail body)
 			mailsub=$pp_prefix' PLAN '$kl			# mail subject
 				#
@@ -75,10 +69,17 @@
 				text="plan_${pp_prefix}_${kl}"	# reference (file)
 				textsum="${text}_sum"			# hash
 				texthtml="${text}_html"			# html (mail body)
-			
 			readarray -t textorg <<< $(cat $text)	# read previews file
 			# here is place for make backup of previews file
-			echo "${text2check[@]}" > $text			# (over)write with downloaded file
+			rm $text
+			
+			readarray -t text2check <<< $(cat text1)
+			# trim spaces
+			for i in "${!text2check[@]}";do
+				a="${text2check[$i]}"
+				text2check[$i]=$(echo "${a}" | sed -e 's/^\s*//g' | sed -e 's/\s*$//g')
+				echo "${text2check[$i]}" >> $text	# (over)write file to hash with this output
+			done
 
 		if [[ -e $textsum ]];then
 			checkstatus=$(sha256sum --check $textsum | grep -o 'FAILED' | wc -l)
