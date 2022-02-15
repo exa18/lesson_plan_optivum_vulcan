@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 mailssl='yes'
 mailsmtp='mailserver:port'
 mailfrom='mailfrom@adress'
