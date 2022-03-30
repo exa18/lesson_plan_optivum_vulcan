@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20220113
+#	version: 20220330
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -66,20 +66,30 @@
 				#
 				# file names
 				#
-				text="plan_${pp_prefix}_${kl}"	# reference (file)
-				textsum="${text}_sum"			# hash
-				texthtml="${text}_html"			# html (mail body)
-			readarray -t textorg <<< $(cat $text)	# read previews file
+				text="plan_${pp_prefix}_${kl}"		# reference (file)
+				textsum="${text}_sum"				# hash
+				texthtml="${text}_html"				# html (mail body)
+			[[ -e $text ]] && readarray -t textorg <<< $(cat $text)	# read current file
 			# here is place for make backup of previews file
-			rm $text
-			
+			[[ -e $text ]] && rm $text
+
+			day=7
+
 			readarray -t text2check <<< $(cat text1)
-			# trim spaces
+			# trim spaces and remove row with empty days
 			for i in "${!text2check[@]}";do
-				a="${text2check[$i]}"
-				text2check[$i]=$(echo "${a}" | sed -e 's/^\s*//g' | sed -e 's/\s*$//g')
-				echo "${text2check[$i]}" >> $text	# (over)write file to hash with this output
+        		row=$(( i%day ))
+				# concat every row w/o 1st and 2nd column, then check if not empty
+        		[[ $row -eq 0 ]] && cap="${text2check[@]:$((i+2)):5}" && cap="${cap// /}"
+				if [[ -n $cap ]];then
+					a="${text2check[$i]}"
+                	[[ $row -eq 1 ]] && a="${a/- /-}"	# remove space inside "8:00- 8:55" when checking column with time
+					a=$(echo "${a}" | sed -e 's/^\s*//g' | sed -e 's/\s*$//g')
+					echo "${a}" >> $text	# (over)write file to hash with this output
+        		fi
 			done
+			# reaload array
+			readarray -t text2check <<< $(cat $text)
 
 		if [[ -e $textsum ]];then
 			checkstatus=$(sha256sum --check $textsum | grep -o 'FAILED' | wc -l)
@@ -109,7 +119,6 @@
 			#
 			# create HTML template
 			#
-				day=7
 				type=("nr" "g" "l" "l" "l" "l" "l")	# cell type/class
 				i=0
 				msg=()
