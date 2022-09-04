@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20220330
+#	version: 20220905
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -22,6 +22,7 @@
 	#
 	forcemail=;[[ "${1}" = "-m" ]] && forcemail="yes"
 	justupdate=;[[ "${1}" = "-u" ]] && justupdate="yes"
+	d=$(date "+%Y%m%d")
 	#
     if [ -f $cfg ]; then
         . $cfg
@@ -161,14 +162,16 @@
 # <
 #
 #
-if [[ ${#planlist[@]} -gt 0 ]];then
-	for i in "${planlist[@]}";do
-		IFS=';' read -ra plan <<< "$i"
-		[[ -n ${plan[0]} ]] && pp_prefix=$(echo "${plan[0]}" | xargs)
-		[[ -n ${plan[1]} ]] && pp_uri=$(echo "${plan[1]}" | xargs)
-		[[ -n $pp_prefix ]] && [[ -n $pp_uri ]] && checkit $(echo "${plan[2]}" | xargs)
-	done
-else
-	echo ".. in $cfg fill planlist"
+if [[ $d -gt ${planactv[0]} ]] && [[ $d -le ${planactv[1]} ]];then
+	if [[ ${#planlist[@]} -gt 0 ]];then
+		for i in "${planlist[@]}";do
+			IFS=';' read -ra plan <<< "$i"
+			[[ -n ${plan[0]} ]] && pp_prefix=$(echo "${plan[0]}" | xargs)
+			[[ -n ${plan[1]} ]] && pp_uri=$(echo "${plan[1]}" | xargs)
+			[[ -n $pp_prefix ]] && [[ -n $pp_uri ]] && checkit $(echo "${plan[2]}" | xargs)
+		done
+	else
+		echo ".. in $cfg fill planlist"
+	fi
 fi
 cd $STARTdir || exit

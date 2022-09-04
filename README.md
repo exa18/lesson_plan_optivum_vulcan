@@ -19,6 +19,12 @@ mailssl : if no SSL just leave blank
 ### Styling
 htmlstyle : it is preconfigured but if you want change for exp. colors then just edit
 
+### List active
+```
+planactv=("20220901" "20230624")
+```
+Between this date lesson plans will be checked. First is begin date (format YYYYMMDD) and second is end.
+
 ### List
 ```
 planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32"
