@@ -7,14 +7,14 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20220905
+#	version: 20220907
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
 #
 # >
     SCRIPT=${0##*/}
-	SCRIPTdir="${0%/*}/"
+    SCRIPTdir="${0%/*}/"
     SCRIPTname=${SCRIPT%.*}
     cfg=".${SCRIPTname}cfg"
 	STARTdir="$(pwd)"
@@ -33,11 +33,15 @@
 
         mailurls=
         mailurlssl=
-    if [ ${#mailssl} -gt 0 ];then
+    if [[ ${#mailssl} -gt 0 ]];then
         mailurls='s'
         mailurlssl=' --ssl-reqd'
     fi
-
+# <
+#
+#	functions
+#
+# >
     function sendMail(){
 		if [[ -z $justupdate ]];then
         curl --url smtp$mailurls://$mailsmtp$mailurlssl \
@@ -156,8 +160,17 @@
 				echo "${msg[@]}" | sed -e 's/>\s</></g' > $texthtml
 				msghtml="$(cat $texthtml)"
 			mailmsg='MIME-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n<html xmlns="http://www.w3.org/1999/xhtml"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="x-apple-disable-message-reformatting"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>'$(echo "$htmlstyle")$(echo -e "$msgtit")$(echo -e "$msghtml")'</body></html>'
+
+			[[ $checkstatus -gt 0 ]] && makeWebPage
 			[[ $checkstatus -gt 0 ]] && [[ -z $forcemail ]] && sendMail
 			[[ -n $forcemail ]] && sendMail
+	}
+
+	function makeWebPage(){
+		if [[ -n $htmlwww ]];then
+			html='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'$(echo "$pp_prefix :: $kl")'</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/>'$(echo "$htmlstyle")'<style>body{margin:0}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow-x: scroll}.nochanges td.changed{background:transparent!important}.nochanges td b{display:none}.toggle{position: fixed;margin-top:-2.65em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;display:inline-block;cursor:pointer;font-weight:bold}.nochanges button{background:#999}@media (max-width:58em) {body{font-size:80%}}</style><script>function toggleClass(){const element = document.querySelector(".card");element.classList.toggle("nochanges");}</script></head><body><div class="container"><div class="card nochanges"><div class="card-body"><button class="toggle" onclick="toggleClass()">'$(echo "$pp_prefix / $kl")'</button>'$(echo "$msghtml")'</div></div></div></body></html>'
+			echo "$html" > ./www/${pp_prefix}_${kl}.html
+		fi
 	}
 # <
 #

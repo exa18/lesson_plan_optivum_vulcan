@@ -3,7 +3,7 @@
 ## Checks and notify if change lesson plans.
 This is paid plan which buy polish schools at [Vulcan site](https://www.vulcan.edu.pl/programy) to generate lesson plans.
 
-## Config first
+## **Config first**
 Rename config file **plancheckcfg** to prepend with dot and fill with.
 
 ### Mail
@@ -36,6 +36,13 @@ planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32"
 Each entry in list consists of 2 to 3 items separated by a semicolon. The first example above is for new api and last is for old api.
 Leaving empty field, like in second and third, means use of last value.
 To get links for first just copy from adress bar, for last copy link from left panel.
+
+### Web Page
+Directory **www** contains HTML files for public access. This direcory can be symlinked or synced to actual domain directory. HTML body/styles/script are put inside script with no external config. File **template.html** contains page skeleton. If you wish not generate HTMLs just leave this blank:
+```
+htmlwww=
+```
+
 
 ## Get links
 
