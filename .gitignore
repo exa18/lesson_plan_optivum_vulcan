@@ -3,3 +3,4 @@
 plan_*
 *.zip
 *.7z
+!.htaccess
