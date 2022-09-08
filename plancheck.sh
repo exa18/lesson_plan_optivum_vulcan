@@ -65,7 +65,7 @@
 		fi
 		echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
 		cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
-			kl=$(cat text2)
+			kl="$(cat text2)"
 			msgtit="<h3>${pp_prefix} / ${kl}</h3>"	# html titile (mail body)
 			mailsub=$pp_prefix' PLAN '$kl			# mail subject
 				#
@@ -74,13 +74,13 @@
 				text="plan_${pp_prefix}_${kl}"		# reference (file)
 				textsum="${text}_sum"				# hash
 				texthtml="${text}_html"				# html (mail body)
-			[[ -e $text ]] && readarray -t textorg <<< $(cat $text)	# read current file
+			[[ -e $text ]] && readarray -t textorg <<< "$(cat $text)"	# read current file
 			# here is place for make backup of previews file
 			[[ -e $text ]] && rm $text
 
 			day=7
 
-			readarray -t text2check <<< $(cat text1)
+			readarray -t text2check <<< "$(cat text1)"
 			# trim spaces and remove row with empty days
 			for i in "${!text2check[@]}";do
         		row=$(( i%day ))
@@ -94,7 +94,7 @@
         		fi
 			done
 			# reaload array
-			readarray -t text2check <<< $(cat $text)
+			readarray -t text2check <<< "$(cat $text)"
 
 		checkstatus=
 		if [[ -e $textsum ]];then
