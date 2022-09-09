@@ -2,8 +2,9 @@
 #
 mailssl='yes'
 mailsmtp='mailserver:port'
-mailfrom='mailfrom@adress'
+mailuser=
 mailpass='password4mailfrom'
+mailfrom='mailfrom@adress'
 mailto='mailto@adress'
 
 htmlwww='yes'

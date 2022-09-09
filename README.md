@@ -10,11 +10,13 @@ Rename config file **plancheckcfg** to prepend with dot and fill with.
 ```
 mailssl=
 mailsmtp='mailserver:port'
-mailfrom='mailfrom@adress'
+mailuser=
 mailpass='password4mailfrom'
+mailfrom='mailfrom@adress'
 mailto='mailto@adress'
 ```
 mailssl : if no SSL just leave blank
+mailuser : leave blank if same as mailfrom
 
 ### Styling
 htmlstyle : it is preconfigured but if you want change for exp. colors then just edit
