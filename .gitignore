@@ -4,3 +4,5 @@ plan_*
 *.zip
 *.7z
 !.htaccess
+*.html
+!template.html
