@@ -7,16 +7,16 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20220907
+#	version: 20220909
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
 #
 # >
-    SCRIPT=${0##*/}
-    SCRIPTdir="${0%/*}/"
-    SCRIPTname=${SCRIPT%.*}
-    cfg=".${SCRIPTname}cfg"
+	SCRIPT=${0##*/}
+	SCRIPTdir="${0%/*}/"
+	SCRIPTname=${SCRIPT%.*}
+	cfg=".${SCRIPTname}cfg"
 	STARTdir="$(pwd)"
 	cd $SCRIPTdir || exit
 	#
@@ -24,33 +24,34 @@
 	justupdate=;[[ "${1}" = "-u" ]] && justupdate="yes"
 	d=$(date "+%Y%m%d")
 	#
-    if [ -f $cfg ]; then
-        . $cfg
-    else
-        echo ".. Create and fill config: $cfg"
-        exit
-    fi
+	if [ -f $cfg ]; then
+		. $cfg
+	else
+		echo ".. Create and fill config: $cfg"
+		exit
+	fi
 
-        mailurls=
-        mailurlssl=
-    if [[ ${#mailssl} -gt 0 ]];then
-        mailurls='s'
-        mailurlssl=' --ssl-reqd'
-    fi
+		mailurls=
+		mailurlssl=
+	if [[ ${#mailssl} -gt 0 ]];then
+		mailurls='s'
+		mailurlssl=' --ssl-reqd'
+	fi
+	[[ -z $mailuser ]] && mailuser=${mailfrom}
 # <
 #
 #	functions
 #
 # >
-    function sendMail(){
-		if [[ -z $justupdate ]];then
-        curl --url smtp$mailurls://$mailsmtp$mailurlssl \
-        --mail-from $mailfrom \
-        --mail-rcpt $mailto \
-        --user $mailfrom:$mailpass \
-        -T <(echo -en "From: ${mailfrom}\nTo: ${mailto}\nSubject: ${mailsub}\n${mailmsg}")
-		fi
-    }
+	function sendMail(){
+	if [[ -z $justupdate ]];then
+		curl --url smtp$mailurls://$mailsmtp$mailurlssl \
+		--mail-from $mailfrom \
+		--mail-rcpt $mailto \
+		--user $mailuser:$mailpass \
+		-T <(echo -en "From: ${mailfrom}\nTo: ${mailto}\nSubject: ${mailsub}\n${mailmsg}")
+	fi
+	}
 
 	function checkit(){
 		curl -L "${pp_uri}${1}" > text
@@ -83,15 +84,15 @@
 			readarray -t text2check <<< "$(cat text1)"
 			# trim spaces and remove row with empty days
 			for i in "${!text2check[@]}";do
-        		row=$(( i%day ))
+				row=$(( i%day ))
 				# concat every row w/o 1st and 2nd column, then check if not empty
-        		[[ $row -eq 0 ]] && cap="${text2check[@]:$((i+2)):5}" && cap="${cap// /}"
+				[[ $row -eq 0 ]] && cap="${text2check[@]:$((i+2)):5}" && cap="${cap// /}"
 				if [[ -n $cap ]];then
 					a="${text2check[$i]}"
-                	[[ $row -eq 1 ]] && a="${a/- /-}"	# remove space inside "8:00- 8:55" when checking column with time
+					[[ $row -eq 1 ]] && a="${a/- /-}"	# remove space inside "8:00- 8:55" when checking column with time
 					a=$(echo "${a}" | sed -e 's/^\s*//g' | sed -e 's/\s*$//g')
 					echo "${a}" >> $text	# (over)write file to hash with this output
-        		fi
+				fi
 			done
 			# reaload array
 			readarray -t text2check <<< "$(cat $text)"
