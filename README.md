@@ -40,7 +40,7 @@ Leaving empty field, like in second and third, means use of last value.
 To get links for first just copy from adress bar, for last copy link from left panel.
 
 ### Web Page
-Directory **www** contains HTML files for public access. This direcory can be symlinked or synced to actual domain directory. HTML body/styles/script are put inside script with no external config. File **template.html** contains page skeleton. If you wish not generate HTMLs just leave this blank:
+Directory **www** contains HTML files for public access. This direcory can be symlinked or synced to actual domain directory. HTML body/styles/script are put inside script with no external config. File **template.html** contains page skeleton. If you wish not generate HTMLs just remove **www** dir or leave this blank:
 ```
 htmlwww=
 ```

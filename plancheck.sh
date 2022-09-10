@@ -64,7 +64,7 @@
 			stab="</table.*table>"
 			skl="tytulnapis\">(.)*</span>"
 		fi
-		echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
+		echo -e "$(cat text)" | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
 		cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl="$(cat text2)"
 			msgtit="<h3>${pp_prefix} / ${kl}</h3>"	# html titile (mail body)
@@ -172,8 +172,10 @@
 
 	function makeWebPage(){
 		if [[ -n $htmlwww ]];then
-			html='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'$(echo "$pp_prefix :: $kl")'</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/>'$(echo "$htmlstyle")'<style>body{margin:0}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow-x: scroll}.nochanges td.changed{background:transparent!important}.nochanges td b{display:none}.toggle{position: fixed;margin-top:-2.65em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;display:inline-block;cursor:pointer;font-weight:bold}.nochanges button{background:#999}@media (max-width:58em) {body{font-size:80%}}</style><script>function toggleClass(){const element = document.querySelector(".card");element.classList.toggle("nochanges");}</script></head><body><div class="container"><div class="card nochanges"><div class="card-body"><button class="toggle" onclick="toggleClass()">'$(echo "$pp_prefix / $kl")'</button>'$(echo "$msghtml")'</div></div></div></body></html>'
-			echo "$html" > ./www/${pp_prefix}_${kl}.html
+			if [[ -e ./www ]];then
+				html='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'$(echo "$pp_prefix :: $kl")'</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/>'$(echo "$htmlstyle")'<style>body{margin:0}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow-x: scroll}.nochanges td.changed{background:transparent!important}.nochanges td b{display:none}.toggle{position: fixed;margin-top:-2.65em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;display:inline-block;cursor:pointer;font-weight:bold}.nochanges button{background:#999}@media (max-width:58em) {body{font-size:80%}}</style><script>function toggleClass(){const element = document.querySelector(".card");element.classList.toggle("nochanges");}</script></head><body><div class="container"><div class="card nochanges"><div class="card-body"><button class="toggle" onclick="toggleClass()">'$(echo "$pp_prefix / $kl")'</button>'$(echo "$msghtml")'</div></div></div></body></html>'
+				echo "$html" > ./www/${pp_prefix}_${kl}.html
+			fi
 		fi
 	}
 # <
