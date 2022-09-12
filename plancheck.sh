@@ -64,7 +64,7 @@
 			stab="</table.*table>"
 			skl="tytulnapis\">(.)*</span>"
 		fi
-		echo -e "$(cat text)" | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
+		echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | tr '\015' '|' | sed -e 's/<br*>/\*/g' | sed -e 's/<\/\?\s*[^>]*>//g' | tr '|' '\n' > text1
 		cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl="$(cat text2)"
 			msgtit="<h3>${pp_prefix} / ${kl}</h3>"	# html titile (mail body)
