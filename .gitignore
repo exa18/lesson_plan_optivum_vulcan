@@ -5,4 +5,4 @@ plan_*
 *.7z
 !.htaccess
 *.html
-!template.html
+!template*.html
