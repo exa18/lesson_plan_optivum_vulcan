@@ -29,14 +29,17 @@ Between this date lesson plans will be checked. First is begin date (format YYYY
 
 ### List
 ```
-planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32"
-"ZS16;;o19"
-";;o7"
-"ZS10;http://zs10.bydgoszcz.pl/html/plany/o4.html"
+planlist=(
+"ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32;5d"
+"ZS16;;o19;7a"
+";;o7;1TCp"
+"ZS10;http://zs10.bydgoszcz.pl/html/plany/o4.html;;3TCp"
 )
 ```
-Each entry in list consists of 2 to 3 items separated by a semicolon. The first example above is for new api and last is for old api.
-Leaving empty field, like in second and third, means use of last value.
+Each entry in list consists of 4 items separated by a semicolon. The first example above is for new api and last is for old api.
+Leaving empty field, like in 2 and 3 line, means use of last value from previews line.
+Last item is class ID in case when data under url not belong to it.
+
 To get links for first just copy from adress bar, for last copy link from left panel.
 
 ### Web Page
