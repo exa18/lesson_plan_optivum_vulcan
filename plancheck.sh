@@ -56,10 +56,11 @@
 	function checkit(){
 		status=
 		statustitle=
-		if [[ $(curl -Is --connect-timeout 3 "${pp_uri}${pp_arg}" | head -n 1 | grep -Eo "[0-9]{3}") -eq 200 ]];then
+		connect=$(curl -kIs --connect-timeout 3 "${pp_uri}${pp_arg}" | head -n 1 | grep -Eo "[0-9]{3}")
+		if [[ $connect -eq 200 ]];then
 			#
 			curl -kL "${pp_uri}${pp_arg}" > text
-			if [[ -n $1 ]];then
+			if [[ -n $pp_arg ]];then
 				# New API
 				stab="<button id.*table>"
 				skl="font-size: 22px;\">(.)*</div>"
@@ -72,7 +73,7 @@
 			cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl="$(cat text2)"
 			#
-			if [[ "$kl" == "$pp_kl" ]];then
+			if [[ "${kl}" == "${pp_kl}" ]];then
 				msgtit="<h3>${pp_prefix} / ${kl}</h3>"	# html titile (mail body)
 				mailsub=$pp_prefix' PLAN '$kl			# mail subject
 					#
@@ -184,14 +185,14 @@
 				fi
 				[[ -n $forcemail ]] && sendMail
 			else
-				status="@"
+				status="@<a href="'"'"${pp_uri}${pp_arg}"'"'" class="'"'"list-group-item"'"'">@${pp_kl}-&gt;[${kl}]</a>"
 				statustitle="Not match or removed"
-				kl=${pp_kl}
 			fi
 		else
-			status="!"
+			status="!${connect}"
 			statustitle="NO connection"
 		fi
+		kl="${pp_kl}"
 		#
 		#
 		htmlstatus=
@@ -217,7 +218,7 @@ if [[ $d -gt ${planactv[0]} ]] && [[ $d -le ${planactv[1]} ]];then
 		#
 		#	makeIndexPage
 		#
-		[[ -n $htmlwww ]] && [[ -d ./www ]] && indexwww='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lesson Plan INDEX</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style>body{margin:0;background:#666}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow: auto}.list-group-horizontal .list-group-item{margin-bottom:1em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;cursor:pointer;font-weight:bold;color:#000;display:block;position: relative;}.badge{position: absolute;right:-1.1em; padding: 0.2em 0.5em;background:#F00;bottom:-1.1em;}</style></head><body><div class="container"><div class="card nochanges"><div class="list-group list-group-horizontal">'$(echo "$indexitems")'</div></div></div></body></html>' && echo "$indexwww" > ./www/index.html
+		[[ -n $htmlwww ]] && [[ -d ./www ]] && indexwww='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lesson Plan INDEX</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style>body{margin:0;background:#666}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow: auto}.list-group-horizontal .list-group-item{margin-bottom:1em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;cursor:pointer;font-weight:bold;color:#000;display:block;position: relative;}.badge{position: absolute;right:-1em; padding: 0.2em 0.5em;background:#F00;bottom:-1em;}</style></head><body><div class="container"><div class="card nochanges"><div class="list-group list-group-horizontal">'$(echo "$indexitems")'</div></div></div></body></html>' && echo "$indexwww" > ./www/index.html
 		#
 		
 	else
