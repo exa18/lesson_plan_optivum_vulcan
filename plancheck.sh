@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20230513
+#	version: 20230515
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -131,7 +131,6 @@
 				else
 					sha256sum $text > $textsum
 				fi
-				rm text text1 text2
 				#
 				# create HTML template
 				#
@@ -185,7 +184,7 @@
 				fi
 				[[ -n $forcemail ]] && sendMail
 			else
-				status="@<a href="'"'"${pp_uri}${pp_arg}"'"'" class="'"'"list-group-item"'"'">@${pp_kl}-&gt;[${kl}]</a>"
+				status="@<a href="'"'"${pp_uri}${pp_arg}"'"'" class="'"'"list-group-item badge"'"'">@${pp_kl}-&gt;[${kl}]</a>"
 				statustitle="Not match or removed"
 			fi
 		else
@@ -200,6 +199,7 @@
 		#
 		#	create html list
 		[[ -n $htmlwww ]] && [[ -e ./www/${pp_prefix}_${kl}.html ]] && indexitems="${indexitems}<a href="'"'"${pp_prefix}_${kl}.html"'"'" class="'"'"list-group-item"'"'">$(cat ./www/${pp_prefix}_${kl}.html | grep -Eo '<title>.*</title>' | sed -e 's/<title>//g' | sed -e 's/<\/title>//g')${htmlstatus}</a>"
+		rm text text1 text2
 	}
 # <
 #
@@ -218,7 +218,7 @@ if [[ $d -gt ${planactv[0]} ]] && [[ $d -le ${planactv[1]} ]];then
 		#
 		#	makeIndexPage
 		#
-		[[ -n $htmlwww ]] && [[ -d ./www ]] && indexwww='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lesson Plan INDEX</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style>body{margin:0;background:#666}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.card-body{overflow: auto}.list-group-horizontal .list-group-item{margin-bottom:1em;background:#ff0;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;cursor:pointer;font-weight:bold;color:#000;display:block;position: relative;}.badge{position: absolute;right:-1em; padding: 0.2em 0.5em;background:#F00;bottom:-1em;}</style></head><body><div class="container"><div class="card nochanges"><div class="list-group list-group-horizontal">'$(echo "$indexitems")'</div></div></div></body></html>' && echo "$indexwww" > ./www/index.html
+		[[ -n $htmlwww ]] && [[ -d ./www ]] && indexwww='<!DOCTYPE html><html class="no-js" lang="pl"><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lesson Plan INDEX</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/><style>body{margin:0;background:#666}.card {display:flex;justify-content:center;align-items:center;height:100vh;margin:auto}.list-group-horizontal .list-group-item{margin-bottom:1em;border: none;padding: 0.5em 1.5em;text-align:center;text-decoration:none;cursor:pointer;font-weight:bold;color:#000;display:block;position: relative;}.list-group-item{background:#ff0;}.badge{position: absolute;right:0;padding: 0.2em 0.5em;background:#F00;bottom:-1em;}.list-group-item.badge{bottom:initial;margin-left:1em;}</style></head><body><div class="container"><div class="card nochanges"><div class="list-group list-group-horizontal">'$(echo "$indexitems")'</div></div></div></body></html>' && echo "$indexwww" > ./www/index.html
 		#
 		
 	else
