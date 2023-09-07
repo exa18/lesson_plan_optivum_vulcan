@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20230515
+#	version: 20230907
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
