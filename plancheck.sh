@@ -56,20 +56,35 @@
 	function checkit(){
 		status=
 		statustitle=
-		connect=$(curl -kIs --connect-timeout 3 "${pp_uri}${pp_arg}" | head -n 1 | grep -Eo "[0-9]{3}")
+		# Check which API: for 2.0 gives 0, for 1.0 more than 0
+		checkapi=$(echo "${pp_uri}" | grep -o '.html' | wc -c)
+		# Check connection
+		connect=$(curl -kIs --connect-timeout 3 "${pp_uri}" | head -n 1 | grep -Eo "[0-9]{3}")
 		if [[ $connect -eq 200 ]];then
 			#
-			curl -kL "${pp_uri}${pp_arg}" > text
-			if [[ -n $pp_arg ]];then
+			# Get webside
+			curl -kL "${pp_uri}" > text
+			if [[ $checkapi -eq 0 ]];then
 				# New API
+				#
+				# get changing part "?vsel=1337&vsel1=@" > "?vsel=1337&vsel"
+				aa_uri=$(cat text | grep -Po '<select data-onchange-value="/.*"><option value="1"' | grep -Po '\?.*=@' | rev | cut -c 4- | rev)
+				# find element for VSEL2, exp. o29
+				bb_uri=$(cat text | grep -Po "<option value=\".*\">${pp_kl}" | awk '{print $NF}' | awk -F'"' '{print $2}')
+				# get content from constructed link "LINK?vsel=1337&vsel2=o29"
+				curl -kL "${pp_uri}${aa_uri}2=${bb_uri}" > text
 				stab="<button id.*table>"
 				skl="font-size: 22px;\">(.)*</div>"
+				echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | grep -Po '(?:<(td|th).*>)(.*)(?:<\/(td|th)>)' | tr '\015' '|' | sed -e 's:|\s*:|:g' -e 's:>|<\/tr>|<tr>|<td:><\/tr>|<tr><td:g' -e 's:>\s*:>:g' -e 's:<br*>:\*:g' -e 's:<\/\?\s*[^>]*>::g' | tr '|' '\n' > text1
 			else
 				# Old
+				#
 				stab="</table.*table>"
 				skl="tytulnapis\">(.)*</span>"
+				# other cleaning do to formating
+				echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | sed -e 's:>\s*<:><:g' | grep -Po '(?:<(td|th).*>)(.*)(?:<\/(td|th)>)' | sed -e 's:</th>:|:g' -e 's:</td>:|:g' -e 's:|\s*:|:g' -e 's:>|<\/tr>|<tr>|<td:><\/tr>|<tr><td:g' -e 's:>\s*:>:g' -e 's:<br*>:\*:g' -e 's:<\/\?\s*[^>]*>::g' -e 's:\&nbsp\;::g' -e 's:Obowi.*VULCAN.*::g' | tr '|' '\n' > text1
 			fi
-			echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | grep -Po '(?:<(td|th).*>)(.*)(?:<\/(td|th)>)' | tr '\015' '|' | sed -e 's:|\s*:|:g' -e 's:>|<\/tr>|<tr>|<td:><\/tr>|<tr><td:g' -e 's:>\s*:>:g' -e 's:<br*>:\*:g' -e 's:<\/\?\s*[^>]*>::g' | tr '|' '\n' > text1
+			# detect and check class
 			cat text | grep -Eo "${skl}" | grep -Eo ">.*<" | cut -c2- | rev | cut -c2- | rev > text2
 			kl="$(cat text2)"
 			#
@@ -174,6 +189,7 @@
 				mailmsg='MIME-Version: 1.0\nContent-Type: text/html; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n<html xmlns="http://www.w3.org/1999/xhtml"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="x-apple-disable-message-reformatting"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>'$(echo "$htmlstyle")$(echo -e "$msgtit")$(echo -e "$msghtml")'</body></html>'
 				#
 				if [[ $checkstatus -gt 0 ]] || [[ -z $checkstatus ]];then
+					#
 					echo "${msghtml}" > $texthtml
 					#
 					#	makeWebPage
@@ -184,7 +200,7 @@
 				fi
 				[[ -n $forcemail ]] && sendMail
 			else
-				status="@<a href="'"'"${pp_uri}${pp_arg}"'"'" class="'"'"list-group-item badge"'"'">@${pp_kl}-&gt;[${kl}]</a>"
+				status="@<a href="'"'"${pp_uri}"'"'" class="'"'"list-group-item badge"'"'">@${pp_kl}-&gt;[${kl}]</a>"
 				statustitle="Not match or removed"
 			fi
 		else
@@ -211,8 +227,7 @@ if [[ $d -gt ${planactv[0]} ]] && [[ $d -le ${planactv[1]} ]];then
 			IFS=';' read -ra plan <<< "$i"
 			[[ -n ${plan[0]} ]] && pp_prefix=$(echo "${plan[0]}" | xargs)
 			[[ -n ${plan[1]} ]] && pp_uri=$(echo "${plan[1]}" | xargs)
-			pp_arg=$(echo "${plan[2]}" | xargs)
-			pp_kl=$(echo "${plan[3]}" | xargs)
+			pp_kl=$(echo "${plan[2]}" | xargs)
 			[[ -n $pp_prefix ]] && [[ -n $pp_uri ]] && [[ -n $pp_kl ]] && checkit
 		done
 		#
