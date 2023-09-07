@@ -37,7 +37,7 @@ planlist=(
 "ZS10;https://sp31.bydgoszcz.pl/plan/plany/o14.html;4c"
 )
 ```
-Each entry in list consists of 4 items separated by a semicolon. The first example above is for new api and last is for old api.
+Each entry in list consists of 3 items separated by a semicolon. The first example above is for new api and last is for old api.
 Leaving empty field, like in 2 and 3 line, means use of last value from previews line.
 Last item is class ID in case when data under url not belong to it.
 
