@@ -12,7 +12,8 @@ htmlwww='yes'
 htmlstyle='<style>.opium_plan{width:100%;border-collapse:separate !important;border:0;border-spacing:0!important}.opium_plan tr:nth-of-type(odd){background:#eee}.opium_plan th{background:#999;color:black;font-weight:bold;text-align:center}.opium_plan td,th{padding:6px;border:0;text-align:left;border-right:3px solid #ccc}.opium_plan td.nr{text-align:center}.opium_plan td.g{text-align:center}.opium_plan td.changed{background:#ff0}.opium_plan tr:nth-of-type(odd) td.changed{background:#ee0}</style>'
 
 planactv=("20220901" "20230624")
-planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32;5d"
-";;o19;1TCp"
-"ZSM2;http://www.zsmnr2.pl/zsm/plan-lekcji-m1,570.html?start=plan&vsel=697&vsel2=;o8;3TDp"
+planlist=("ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji;5d"
+"ZSM2;https://www.zsmnr2.pl/zsm/plan-lekcji;3TDp"
+";;1TCp"
+"ZS10;https://sp31.bydgoszcz.pl/plan/plany/o14.html;4c"
 )

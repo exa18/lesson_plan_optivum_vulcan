@@ -30,10 +30,11 @@ Between this date lesson plans will be checked. First is begin date (format YYYY
 ### List
 ```
 planlist=(
-"ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji?vsel=675&vsel2=;o32;5d"
-"ZS16;;o19;7a"
-";;o7;1TCp"
-"ZS10;http://zs10.bydgoszcz.pl/html/plany/o4.html;;3TCp"
+"ZS16;https://zs16.edu.bydgoszcz.pl/plan-lekcji;5d"
+"ZS16;;7a"
+"ZSM2;https://www.zsmnr2.pl/zsm/plan-lekcji;3TDp"
+";;1TCp"
+"ZS10;https://sp31.bydgoszcz.pl/plan/plany/o14.html;4c"
 )
 ```
 Each entry in list consists of 4 items separated by a semicolon. The first example above is for new api and last is for old api.
