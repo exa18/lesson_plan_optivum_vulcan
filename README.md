@@ -15,8 +15,11 @@ mailpass='password4mailfrom'
 mailfrom='mailfrom@adress'
 mailto='mailto@adress'
 ```
-mailssl : if no SSL just leave blank
-mailuser : leave blank if same as mailfrom
+- mailssl : if no SSL just leave blank
+- mailuser : leave blank if same as mailfrom
+
+**NOTICE** In case ```curl: (67) Login denied``` need check mailuser and mailpass.
+
 
 ### Styling
 htmlstyle : it is preconfigured but if you want change for exp. colors then just edit

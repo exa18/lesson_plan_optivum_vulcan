@@ -7,7 +7,7 @@
 #	     -u : update only with no mail
 #
 #	created: julian.cenkier@wp.eu
-#	version: 20230907
+#	version: 20241028
 #
 #	Install on host with shell access
 #	and set cron job for period checks.
@@ -73,7 +73,7 @@
 				bb_uri=$(cat text | grep -Po "<option value=\".*\">${pp_kl}" | awk '{print $NF}' | awk -F'"' '{print $2}')
 				# get content from constructed link "LINK?vsel=1337&vsel2=o29"
 				curl -kL "${pp_uri}${aa_uri}2=${bb_uri}" > text
-				stab="<button id.*table>"
+				stab="<table.?class=\"opium_plan\".*table>"
 				skl="font-size: 22px;\">(.)*</div>"
 				echo -e $(cat text) | grep -Eo "${stab}" | grep -Po '<table.*$' | grep -Po '(?:<(td|th).*>)(.*)(?:<\/(td|th)>)' | tr '\015' '|' | sed -e 's:|\s*:|:g' -e 's:>|<\/tr>|<tr>|<td:><\/tr>|<tr><td:g' -e 's:>\s*:>:g' -e 's:<br*>:\*:g' -e 's:<\/\?\s*[^>]*>::g' | tr '|' '\n' > text1
 			else
